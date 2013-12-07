@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/FrostedTabs;component/UserControls/WindowPanel.xaml" />
+        <ResourceDictionary Source="/FrostedTabs;component/UserControls/CollapsiblePanel.xaml" />
+        <ResourceDictionary Source="/FrostedTabs;component/UserControls/DropDownMenu.xaml" />
+        <ResourceDictionary Source="/FrostedTabs;component/UserControls/ScaleBar.xaml" />
+        <ResourceDictionary Source="/FrostedTabs;component/Toolkit/IconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

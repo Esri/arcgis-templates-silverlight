@@ -1,0 +1,245 @@
+<UserControl x:Class="ShowcaseVB.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:esri="http://schemas.esri.com/arcgis/client/2009"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600" 
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:userControls="clr-namespace:ESRI.ArcGIS.SilverlightMapApp"
+    xmlns:actions="clr-namespace:ESRI.ArcGIS.SilverlightMapApp.Actions">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource BaseColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" x:Name="TopBarRowDefinition" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- Application Header -->
+        <Grid Grid.Row="0">
+            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                <TextBlock Text="{StaticResource Title}" Style="{StaticResource titleTextStyle}" />
+                <TextBlock Text="{StaticResource Title}" Style="{StaticResource titleTextStyle2}" />
+            </Grid>
+            <Image Source="Images/blue_globe.png" HorizontalAlignment="Right" Margin="5" />
+        </Grid>
+
+        <!--Menu bar-->
+        <Grid Grid.Row="1" x:Name="TopMenuGrid" Background="{StaticResource BaseColor}">
+            <Rectangle x:Name="BackgroundGradient" Opacity=".5" Fill="{StaticResource ReflectionGradient}" />
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                <!-- Base layers -->
+                <userControls:DropDownMenu>
+                    <userControls:DropDownMenu.MenuHeader>
+                        <Button Margin="5,0,0,0" Cursor="Arrow">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{StaticResource MapStyleMenuTitle}" Foreground="White" FontWeight="Bold" />
+                                    <Image Source="Images/Layers-32.png" Height="22" Margin="2,-3,-3,-3" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </userControls:DropDownMenu.MenuHeader>
+                    <Border Style="{StaticResource menuBorder}">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" Direction="-45" BlurRadius="20" Opacity=".75" />
+                        </Border.Effect>
+                        <StackPanel>
+                            <RadioButton Content="Streets"  
+                                     ToolTipService.ToolTip="Worldwide Street Map"
+                                     GroupName="BaseLayer">
+                            	<i:Interaction.Triggers>
+                            		<i:EventTrigger EventName="Checked">
+                            			<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer"
+											Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+                            		</i:EventTrigger>
+                            	</i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Aerial" IsChecked="True"  
+                                     ToolTipService.ToolTip="Worldwide Satellite Imagery Map"
+                                     GroupName="BaseLayer" >
+                            	<i:Interaction.Triggers>
+                            		<i:EventTrigger EventName="Checked">
+                            			<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer"
+											Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+                            		</i:EventTrigger>
+                            	</i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Shaded Relief"  
+                                     ToolTipService.ToolTip="Worldwide Shaded Relief Map"
+                                     GroupName="BaseLayer" >
+                            	<i:Interaction.Triggers>
+                            		<i:EventTrigger EventName="Checked">
+                            			<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer"
+											Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer"/>
+                            		</i:EventTrigger>
+                            	</i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Topographic"  
+                                     GroupName="BaseLayer"
+                                     ToolTipService.ToolTip="United States Topographic Map" >
+                            	<i:Interaction.Triggers>
+                            		<i:EventTrigger EventName="Checked">
+                            			<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer"
+											Url="http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer"/>
+                            		</i:EventTrigger>
+                            	</i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Physical World"  
+                                     ToolTipService.ToolTip="Natural Earth Physical Map"
+                                     GroupName="BaseLayer" >
+                            	<i:Interaction.Triggers>
+                            		<i:EventTrigger EventName="Checked">
+                            			<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer"
+											Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer"/>
+                            		</i:EventTrigger>
+                            	</i:Interaction.Triggers>
+                            </RadioButton>
+                        </StackPanel>
+                    </Border>
+                </userControls:DropDownMenu>
+            </StackPanel>
+
+            <!-- Menus on right side of the menu bar -->
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button Height="30" Width="30" Margin="0,0,2,0"
+            		HorizontalContentAlignment="Left" Padding="3" ToolTipService.ToolTip="Toggle Magnifying Glass">
+            		<i:Interaction.Triggers>
+            			<i:EventTrigger EventName="Click" >
+            				<actions:ToggleVisibilityAction TargetName="mag" />
+            			</i:EventTrigger>
+            		</i:Interaction.Triggers>
+            		<Image Source="Images/MagnifyGlass.png" Margin="2" />
+            	</Button>
+            	<Button Height="30" Width="30" Margin="0,0,2,0"
+            		HorizontalContentAlignment="Left" Padding="2" ToolTipService.ToolTip="Toggle Overview Map">
+            		<i:Interaction.Triggers>
+            			<i:EventTrigger EventName="Click" >
+            				<actions:ToggleWindowVisibilityAction TargetName="OverviewWindow" />
+            			</i:EventTrigger>
+            		</i:Interaction.Triggers>
+            		<Image Source="Images/Overview.png" Margin="2" />
+            	</Button>
+				<Button Height="30" Width="30" Margin="0,0,2,0"
+            		HorizontalContentAlignment="Left" Padding="2" ToolTipService.ToolTip="Toggle Map Legend">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Click" >
+							<actions:ToggleWindowVisibilityAction TargetName="MapLegendWindow" />
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+					<Image Source="Images/i_legend.png" Margin="2" />
+				</Button>
+				<Button Height="30" Width="30" Margin="0,0,2,0"
+            		HorizontalContentAlignment="Left" Padding="2" ToolTipService.ToolTip="About ESRI Map Application">
+            		<i:Interaction.Triggers>
+            			<i:EventTrigger EventName="Click" >
+            				<actions:ToggleWindowVisibilityAction TargetName="aboutWindow" />
+            			</i:EventTrigger>
+            		</i:Interaction.Triggers>
+            		<Image Source="Images/i_about.png" Margin="2" />
+            	</Button>
+                <Button Margin="0,0,2,0" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click" >
+                            <actions:ToggleFullScreenAction />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                	<Image Source="Images/Fullscreen-32.png" Height="24" Margin="-4"
+                		ToolTipService.ToolTip="Toggle Fullscreen"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Body of the Application -->
+        <Grid Grid.Row="2">
+            <!-- Map View -->
+            <esri:Map x:Name="Map" Background="{StaticResource BaseColor}" WrapAround="true">
+                <esri:ArcGISTiledMapServiceLayer ID="BaseLayer" 
+				        Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer" />
+            </esri:Map>
+
+            <!-- Scale Bar -->
+            <esri:ScaleLine Opacity=".5" Map="{Binding ElementName=Map}" 
+				            Margin="5,0,10,5" IsHitTestVisible="False" 
+								   Foreground="White"
+                                   HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+
+			<!-- Attribution Text -->
+			<esri:Attribution Layers="{Binding ElementName=Map, Path=Layers}" 
+							Margin="200,0,80,5" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+							IsHitTestVisible="False" />
+			
+            <!-- Navigator -->
+            <esri:Navigation x:Name="nav" Margin="10" Map="{Binding ElementName=Map}" 
+                                HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                Background="{StaticResource BaseColor}" >
+                <esri:Navigation.Effect>
+                    <DropShadowEffect Color="Black" Direction="-45" BlurRadius="20" Opacity=".75" />
+                </esri:Navigation.Effect>
+            </esri:Navigation>
+        </Grid>
+        
+        <!-- About window -->
+        <userControls:DraggableWindow IsOpen="True" x:Name="aboutWindow" Grid.Row="2" Margin="0" 
+        	VerticalAlignment="Center" HorizontalAlignment="Center" Title="About" Width="375" Height="150" Background="{StaticResource BaseColor}">
+        	<i:Interaction.Triggers>
+        		<i:EventTrigger>
+        			<actions:ToggleWindowVisibilityAction TargetName="aboutWindow"/> <!-- Hide at startup -->
+        		</i:EventTrigger>
+        	</i:Interaction.Triggers>
+        	<StackPanel Orientation="Vertical">
+                <TextBlock TextWrapping="NoWrap" Text="{StaticResource Title}" Width="Auto" Height="Auto" 
+                           Foreground="White" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="5,3,0,0" />
+                <TextBlock TextWrapping="NoWrap" Text="{StaticResource Subtitle}" Width="Auto" Height="Auto" 
+                           Foreground="White" FontSize="12" HorizontalAlignment="Left" Margin="5,1,0,0" />
+                <Line X1="5" Y1="50" X2="330" Y2="50" Stroke="White" StrokeThickness="0.25" />
+                <TextBlock Foreground="Yellow" FontSize="11" Width="Auto" Height="Auto" TextWrapping="NoWrap" 
+                           Text="{StaticResource Info}" HorizontalAlignment="Left" Margin="5,3,0,0" />
+            </StackPanel>
+        </userControls:DraggableWindow>
+
+        <!-- Overview map window -->
+        <userControls:DraggableWindow IsOpen="True" x:Name="OverviewWindow" Grid.Row="2" Margin="20,10,20,-170"
+                                      VerticalAlignment="Top" HorizontalAlignment="Right" Width="212" Height="231" 
+                                      Padding="0" HorizontalContentAlignment="Stretch" 
+                                      VerticalContentAlignment="Stretch" Title="Overview Map" Background="{StaticResource BaseColor}">
+        	<i:Interaction.Triggers>
+        		<i:EventTrigger>
+        			<actions:ToggleWindowVisibilityAction/> <!-- Hide at startup -->
+        		</i:EventTrigger>
+        	</i:Interaction.Triggers>
+            <esri:OverviewMap x:Name="OverView"  Map="{Binding ElementName=Map}">
+            	<esri:ArcGISTiledMapServiceLayer 
+            		Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+            </esri:OverviewMap>
+        </userControls:DraggableWindow>
+
+		<!-- Map legend window -->
+		<userControls:DraggableWindow IsOpen="True" x:Name="MapLegendWindow" Grid.Row="2" Margin="20,250,20,-380"
+                                      VerticalAlignment="Top" HorizontalAlignment="Right" Width="212" Height="231" 
+                                      Padding="0" HorizontalContentAlignment="Stretch" 
+                                      VerticalContentAlignment="Stretch" Title="Map Legend" Background="{StaticResource BaseColor}">
+			<i:Interaction.Triggers>
+				<i:EventTrigger>
+					<actions:ToggleWindowVisibilityAction/> <!-- Hide at startup -->
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<esri:Legend x:Name="Legend" Map="{Binding ElementName=Map}" />
+		</userControls:DraggableWindow>
+
+		<!-- Magnifying Glass -->
+        <esri:MagnifyingGlass x:Name="mag" Map="{Binding ElementName=Map}" Visibility="Visible" 
+                                 HorizontalAlignment="Left" Margin="37,156,0,0" VerticalAlignment="Top" Grid.Row="2" Height="225" Width="225" Background="{StaticResource BaseColor}">
+			<i:Interaction.Triggers>
+				<i:EventTrigger>
+					<actions:ToggleVisibilityAction TargetName="mag"/> <!-- Hide at startup -->
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<esri:MagnifyingGlass.Layer>
+				<esri:ArcGISTiledMapServiceLayer ID="Base layer" 
+					Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer" />
+			</esri:MagnifyingGlass.Layer>
+		</esri:MagnifyingGlass>
+		
+	</Grid>
+</UserControl>

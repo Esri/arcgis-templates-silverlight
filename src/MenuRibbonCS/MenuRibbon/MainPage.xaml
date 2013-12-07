@@ -1,0 +1,629 @@
+﻿<UserControl x:Class="MenuRibbon.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="http://schemas.esri.com/arcgis/client/2009"
+    xmlns:basics="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+    xmlns:userControls="clr-namespace:ESRI.ArcGIS.SilverlightMapApp"
+    xmlns:actions="clr-namespace:ESRI.ArcGIS.SilverlightMapApp.Actions"
+    xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+    xmlns:slData="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+    xmlns:icons="clr-namespace:Toolkit.Icons"
+    xmlns:toolkit="clr-namespace:Toolkit"
+	xmlns:slPrimitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls.Data"
+    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+
+	<UserControl.Resources>
+		<DropShadowEffect x:Name="dropShadow" BlurRadius="10" ShadowDepth="10" Direction="-45" Color="Black" Opacity="0.5" />
+		<DropShadowEffect x:Name="darkDropShadow" BlurRadius="10" ShadowDepth="10" Direction="-45" Color="Black" Opacity="1" />
+		<DropShadowEffect x:Name="miniDropShadow" BlurRadius="5" ShadowDepth="5" Direction="-45" Color="Black" Opacity="0.5" />
+		<DropShadowEffect x:Name="miniDarkDropShadow" BlurRadius="5" ShadowDepth="5" Direction="-45" Color="Black" Opacity="1" />
+	</UserControl.Resources>
+
+	<Grid x:Name="LayoutRoot" Background="Gray" SizeChanged="LayoutRoot_SizeChanged">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.Resources>
+			<Style x:Key="MyCustomRow" TargetType="slData:DataGridRow">
+				<Setter Property="IsTabStop" Value="False" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="slData:DataGridRow">
+							<slPrimitives:DataGridFrozenGrid Name="Root">
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualStateGroup.Transitions>
+											<VisualTransition GeneratedDuration="0" />
+										</VisualStateGroup.Transitions>
+										<VisualState x:Name="Normal" >
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To=".5"/>
+												<ColorAnimationUsingKeyFrames BeginTime="0" Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+													<SplineColorKeyFrame KeyTime="0" Value="#ebf4fa"/>
+												</ColorAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="Normal AlternatingRow">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To="0"/>
+												<ColorAnimationUsingKeyFrames BeginTime="0" Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+													<SplineColorKeyFrame KeyTime="0" Value="#bbd9ee"/>
+												</ColorAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="MouseOver">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To=".5"/>
+												<ColorAnimationUsingKeyFrames BeginTime="0" Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+													<SplineColorKeyFrame KeyTime="0" Value="#8800FFFF"/>
+												</ColorAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="Normal Selected">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To="1"/>
+												<ColorAnimationUsingKeyFrames BeginTime="0" Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+													<SplineColorKeyFrame KeyTime="0" Value="#8800FFFF"/>
+												</ColorAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="MouseOver Selected">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To="1"/>
+												<ColorAnimationUsingKeyFrames BeginTime="0" Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+													<SplineColorKeyFrame KeyTime="0" Value="#8800FFFF"/>
+												</ColorAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState>
+										<VisualState x:Name="Unfocused Selected">
+											<Storyboard>
+												<DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To="1"/>
+												<ColorAnimationUsingKeyFrames BeginTime="0" Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+													<SplineColorKeyFrame KeyTime="0" Value="#8800FFFF"/>
+												</ColorAnimationUsingKeyFrames>
+											</Storyboard>
+										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*"/>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.Resources>
+									<Storyboard x:Key="DetailsVisibleTransition">
+										<DoubleAnimation Storyboard.TargetName="DetailsPresenter" Storyboard.TargetProperty="ContentHeight" 
+                                           Duration="00:00:0.1" />
+									</Storyboard>
+								</Grid.Resources>
+
+								<Rectangle x:Name="BackgroundRectangle" Grid.RowSpan="2" Grid.ColumnSpan="2" Opacity="0" 
+                                           Fill="#FFFFCC00"/>
+
+								<slPrimitives:DataGridRowHeader Grid.RowSpan="3" Name="RowHeader" 
+                                           slPrimitives:DataGridFrozenGrid.IsFrozen="True" />
+								<slPrimitives:DataGridCellsPresenter Grid.Column="1" Name="CellsPresenter" 
+                                           slPrimitives:DataGridFrozenGrid.IsFrozen="True" />
+								<slPrimitives:DataGridDetailsPresenter Grid.Row="1" Grid.Column="1" Name="DetailsPresenter" />
+								<Rectangle Grid.Row="2" Grid.Column="1" Name="BottomGridLine" HorizontalAlignment="Stretch" 
+                                           Height="1" />
+							</slPrimitives:DataGridFrozenGrid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Storyboard x:Name="ResetMapRotation" Completed="ResetMapRotation_Completed" >
+				<DoubleAnimation Duration="0:0:0.5" BeginTime="0:0:0" Storyboard.TargetName="Map" Storyboard.TargetProperty="Rotation" To="0" />
+				<DoubleAnimation Duration="0:0:0.5" BeginTime="0:0:0" Storyboard.TargetName="RotationGlobeGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="0" />
+			</Storyboard>
+
+			<esri:SimpleMarkerSymbol x:Name="DefaultMarkerSymbol" Color="Red" Size="12" Style="Circle" />
+			<esri:SimpleLineSymbol x:Name="DefaultLineSymbol" Color="Red" Width="4" />
+			<esri:SimpleFillSymbol x:Name="DefaultFillSymbol" Fill="#66FF0000" BorderBrush="Red" 
+                                          BorderThickness="1" />
+			<esri:FillSymbol x:Name="ResultsFillSymbol">
+				<esri:FillSymbol.ControlTemplate>
+					<ControlTemplate x:Name="CustomPolygonTemplate">
+						<Grid>
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="Element"
+                           Storyboard.TargetProperty="(Fill).(Color)"
+                           To="#880000FF" Duration="0:0:0.1" />
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="MouseOver">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="Element"
+                           Storyboard.TargetProperty="(Fill).(Color)"
+                           To="#8800FFFF" Duration="0:0:0.1" />
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Selected">
+										<Storyboard>
+											<ColorAnimation Storyboard.TargetName="Element"
+                           Storyboard.TargetProperty="(Fill).(Color)"
+                           To="#8800FFFF" Duration="0:0:0.1" />
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Path x:Name="Element" Stroke="Blue" Fill="#880000FF"
+                           StrokeStartLineCap="Round" StrokeThickness="2" 
+                           StrokeLineJoin="Round" StrokeEndLineCap="Round" />
+						</Grid>
+					</ControlTemplate>
+				</esri:FillSymbol.ControlTemplate>
+			</esri:FillSymbol>
+
+		</Grid.Resources>
+
+		<!-- Map -->
+		<Grid x:Name="MapDisplayGrid" Margin="0" Grid.Row="1">
+			<Border x:Name="MapBorder" Margin="0" BorderBrush="#FF666666" BorderThickness="1" >
+				<Grid x:Name="MapGrid" RenderTransformOrigin="0.5,0.5">
+					<Grid.Projection>
+						<PlaneProjection x:Name="mapPlaneProjection" RotationX="0"  />
+					</Grid.Projection>
+					<esri:Map x:Name="Map" Background="White" Loaded="Map_Loaded" WrapAround="True" >
+						<!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseEnter">
+                                <ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                                    <ei:ChangePropertyAction.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </ei:ChangePropertyAction.Value>
+                                </ei:ChangePropertyAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+						<esri:ArcGISTiledMapServiceLayer ID="BaseLayer" 
+        		    Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" Initialized="ArcGISTiledMapServiceLayer_Initialized" />
+						<esri:GraphicsLayer ID="MySelectionGraphicsLayer"  
+																MouseEnter="GraphicsLayer_MouseEnter" 
+                                MouseLeave="GraphicsLayer_MouseLeave"  />
+
+					</esri:Map>
+					<Rectangle Width="2" Height="10" Fill="Black" Opacity="0.75" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
+					<Rectangle Height="2" Width="10" Fill="Black" Opacity="0.75" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
+
+				</Grid>
+			</Border>
+
+			<!-- Map Rotation Control Panel -->
+			<userControls:CollapsiblePanel x:Name="MapRotationPanel" HorizontalAlignment="Center" VerticalAlignment="Center" IsExpanded="False" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
+				<Grid x:Name="MapRotationGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#00FFFFFF" Width="500" Height="500" Cursor="Hand" MouseLeftButtonDown="MapRotationGrid_MouseLeftButtonDown" Effect="{StaticResource dropShadow}" >
+					<Ellipse Stroke="#66FFFFFF" StrokeThickness="50" Width="750" Height="750" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<Ellipse Stroke="#66FFFFFF" StrokeThickness="50" Width="500" Height="500" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<Ellipse Stroke="#66FFFFFF" StrokeThickness="50" Width="250" Height="250" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<Grid x:Name="RotationGlobeGrid" Width="230" Height="230" RenderTransformOrigin="0.5,0.5" >
+						<Grid.RenderTransform>
+							<RotateTransform x:Name="MapRotationTransform" Angle="0" />
+						</Grid.RenderTransform>
+						<TextBlock x:Name="RotationNorthText" FontSize="24" Foreground="#CCFFFFFF" FontWeight="Bold" Text="N" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+						<icons:LargeWorldGlobe x:Name="RotationGlobe" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5" />
+					</Grid>
+					<TextBlock x:Name="RotationAngleText" Foreground="White" Text="0" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource miniDropShadow}" />
+					<Canvas x:Name="MapRotationCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" >
+
+					</Canvas>
+					<Button x:Name="ResetRotation" Height="20" FontSize="8" Width="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Margin="5" Style="{StaticResource ClearButtonStyle}" Padding="0" Cursor="Hand" Click="ResetRotation_Click"  ToolTipService.ToolTip="Reset Map Rotation" >
+						<Button.Content>
+							<Grid Height="20" Width="20">
+								<Image Style="{StaticResource compassImage}"/>
+							</Grid>
+						</Button.Content>
+					</Button>
+				</Grid>
+			</userControls:CollapsiblePanel>
+		</Grid>
+
+		<!-- Overview Map Window -->
+		<userControls:CollapsiblePanel x:Name="OverviewMapPanel" IsExpanded="False" Grid.Row="1" 
+                                           RenderTransformOrigin="1,0"
+                                           VerticalContentAlignment="Top" HorizontalContentAlignment="Right" Margin="5" Effect="{StaticResource dropShadow}" >
+			<Grid Width="300" Height="150"  >
+				<Border Background="{StaticResource PanelGradient}" BorderBrush="{StaticResource CommonBorderBrush}" BorderThickness="1" CornerRadius="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+					<Border Effect="{StaticResource miniDropShadow}" Style="{StaticResource PanelBorder}" Padding="15" Margin="10" >
+						<esri:OverviewMap x:Name="OVMap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White"
+                                     Map="{Binding ElementName=Map}">
+							<esri:OverviewMap.Layer>
+                                <esri:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+							</esri:OverviewMap.Layer>
+						</esri:OverviewMap>
+					</Border>
+				</Border>
+				<Image Source="images/CloseX.png" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Stretch="None" Cursor="Hand" ToolTipService.ToolTip="Close" >
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown" >
+							<actions:ToggleCollapseAction TargetName="OverviewMapPanel" />
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+			</Grid>
+		</userControls:CollapsiblePanel>
+
+		<!-- About Window -->
+		<userControls:CollapsiblePanel x:Name="AboutWindow"  IsExpanded="False" Grid.Row="1" 
+                                           RenderTransformOrigin="0.5,0.5"
+                                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="15" Effect="{StaticResource dropShadow}" >
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+				<Border Background="{StaticResource PanelGradient}" BorderBrush="{StaticResource CommonBorderBrush}" BorderThickness="1" CornerRadius="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+					<Border Effect="{StaticResource miniDropShadow}" Style="{StaticResource PanelBorder}" Padding="15" Margin="10">
+						<StackPanel Orientation="Vertical">
+							<TextBlock Style="{StaticResource Title}" TextWrapping="NoWrap" 
+                               Text="{StaticResource ApplicationTitle}" Width="Auto" Height="Auto" 
+                               Margin="5,3,0,0" />
+							<TextBlock Style="{StaticResource Subtitle}" TextWrapping="NoWrap" 
+                               Text="{StaticResource ApplicationSubtitle}" Width="Auto" Height="Auto" 
+                               Margin="5,1,0,0" />
+							<Line X1="5" Y1="50" X2="355" Y2="50" Stroke="White" StrokeThickness="0.25" />
+							<TextBlock Foreground="Black" FontSize="11" Width="Auto" TextWrapping="NoWrap" 
+                               Text="{StaticResource ApplicationInfo}" Height="Auto" 
+                               HorizontalAlignment="Left" Margin="5,3,0,0" />
+						</StackPanel>
+					</Border>
+				</Border>
+				<Image Source="images/CloseX.png" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Stretch="None" Cursor="Hand" ToolTipService.ToolTip="Close" >
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown" >
+							<actions:ToggleCollapseAction TargetName="AboutWindow" />
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+			</Grid>
+		</userControls:CollapsiblePanel>
+
+		<!-- Query Results Display-->
+		<userControls:CollapsiblePanel x:Name="ResultsDisplay"  IsExpanded="False" Grid.Row="1" 
+                                           RenderTransformOrigin="1,1"
+                                           VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Margin="5" Effect="{StaticResource dropShadow}" >
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+				<Border Background="{StaticResource PanelGradient}" BorderBrush="{StaticResource CommonBorderBrush}" BorderThickness="1" CornerRadius="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+					<Border Effect="{StaticResource miniDropShadow}" Style="{StaticResource PanelBorder}" Padding="15" Margin="10">
+						<StackPanel Orientation="Vertical">
+							<TextBlock x:Name="DataDisplayTitle" Text="Search Results" Foreground="Black" FontSize="9" Margin="10" FontWeight="Bold" />
+							<!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="10,0,10,10" Width="380" Height="170" >-->
+							<slData:DataGrid x:Name="QueryDetailsDataGrid" AutoGenerateColumns="False" Width="Auto" Height="170" HeadersVisibility="Column" Background="White" 
+																	IsReadOnly="True" HorizontalScrollBarVisibility="Hidden"
+																	RowStyle="{StaticResource MyCustomRow}" CanUserSortColumns="True"
+																	SelectionChanged="QueryDetailsDataGrid_SelectionChanged"
+																	LoadingRow="QueryDetailsDataGrid_LoadingRow">
+								<slData:DataGrid.Columns>
+									<slData:DataGridTextColumn Binding="{Binding Attributes[state_name]}" Header="State Name"/>
+									<slData:DataGridTextColumn Binding="{Binding Attributes[sub_region]}" Header="Region"/>
+									<slData:DataGridTextColumn Binding="{Binding Attributes[pop2000]}" Header="Population"/>
+								</slData:DataGrid.Columns>
+							</slData:DataGrid>
+							<!--</ScrollViewer>-->
+						</StackPanel>
+					</Border>
+				</Border>
+				<Image Source="images/CloseX.png" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Stretch="None" Cursor="Hand" ToolTipService.ToolTip="Close" >
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown" >
+							<actions:ToggleCollapseAction TargetName="ResultsDisplay" />
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+			</Grid>
+		</userControls:CollapsiblePanel>
+
+		<!-- Tab Ribbon -->
+		<Grid x:Name="RibbonGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0"  >
+			<toolkit:TabRibbon x:Name="tabRibbon" HorizontalAlignment="Stretch" TabStripPlacement="Top"  >
+
+				<!-- View Options Tab -->
+				<basics:TabItem Header="View Options" Name="Item_0" Tag="0" Style="{StaticResource RibbonTabItemStyle}"  >
+					<basics:TabItem.Content>
+						<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+							<StackPanel Orientation="Horizontal" >
+								<Grid>
+									<!-- Map Style -->
+									<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+
+										<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+											<TextBlock Text="Map Style" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="0" FontSize="10" />
+											<Button Style="{StaticResource RibbonButton}" Margin="5,0,5,5" Cursor="Hand" ToolTipService.ToolTip="Toggle Map Rotation" VerticalAlignment="Center"  HorizontalAlignment="Center"  Padding="5,10,5,10" >
+												<StackPanel Orientation="Horizontal" Margin="5,0,5,5" HorizontalAlignment="Center" VerticalAlignment="Center"  Effect="{StaticResource miniDropShadow}">
+													<RadioButton Content="Streets" IsChecked="True" ToolTipService.ToolTip="Worldwide Street Map" GroupName="BaseLayer" Margin="0" FontSize="11" >
+														<i:Interaction.Triggers>
+															<i:EventTrigger EventName="Checked">
+                                                                <actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer" Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+															</i:EventTrigger>
+														</i:Interaction.Triggers>
+													</RadioButton>
+													<RadioButton Content="Topo" GroupName="BaseLayer" ToolTipService.ToolTip="United States Topographic Map" Margin="5,0,0,0" FontSize="11" >
+														<i:Interaction.Triggers>
+															<i:EventTrigger EventName="Checked">
+                                                                <actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer" Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"/>
+															</i:EventTrigger>
+														</i:Interaction.Triggers>
+													</RadioButton>
+													<RadioButton Content="Imagery" ToolTipService.ToolTip="Worldwide Satellite Imagery Map" GroupName="BaseLayer" Margin="5,0,0,0" FontSize="11" >
+														<i:Interaction.Triggers>
+															<i:EventTrigger EventName="Checked">
+                                                                <actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer" Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+															</i:EventTrigger>
+														</i:Interaction.Triggers>
+													</RadioButton>
+												</StackPanel>
+											</Button>
+										</Grid>
+									</Border>
+								</Grid>
+								<!-- Toggle Buttons-->
+
+								<!-- Overview Toggle Button -->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Overview" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<Button Style="{StaticResource RibbonButton}" Cursor="Hand" HorizontalAlignment="Center" Margin="0,0,0,5" VerticalAlignment="Center"  ToolTipService.ToolTip="Toggle Overview Map" Padding="5,10,5,10" >
+											<i:Interaction.Triggers>
+												<i:EventTrigger EventName="Click" >
+													<actions:ToggleCollapseAction TargetName="OverviewMapPanel" />
+												</i:EventTrigger>
+											</i:Interaction.Triggers>
+											<Grid  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+
+												<Image Style="{StaticResource overviewImage}" Height="22"  />
+
+											</Grid>
+										</Button>
+									</Grid>
+								</Border>
+
+								<!-- About Toggle Button-->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="About" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" 
+        		HorizontalContentAlignment="Center"  ToolTipService.ToolTip="About ESRI Map Application">
+											<i:Interaction.Triggers>
+												<i:EventTrigger EventName="Click" >
+													<actions:ToggleCollapseAction TargetName="AboutWindow" />
+												</i:EventTrigger>
+											</i:Interaction.Triggers>
+											<Grid  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+
+												<Image Style="{StaticResource aboutImage}" Height="24"  />
+
+											</Grid>
+										</Button>
+									</Grid>
+								</Border>
+
+								<!-- Full Screen Toggle Button -->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Full Screen" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,10,5,10" >
+											<i:Interaction.Triggers>
+												<i:EventTrigger EventName="Click" >
+													<actions:ToggleFullScreenAction />
+												</i:EventTrigger>
+											</i:Interaction.Triggers>
+											<Grid  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+												<Image Style="{StaticResource fullScreenImage}" Height="24" ToolTipService.ToolTip="Toggle Full Screen" />
+											</Grid>
+										</Button>
+									</Grid>
+								</Border>
+
+							</StackPanel>
+
+
+						</Grid>
+					</basics:TabItem.Content>
+				</basics:TabItem>
+
+				<!-- Navigation Tab -->
+				<basics:TabItem Header="Navigation" Name="Item_1" Tag="1" Style="{StaticResource RibbonTabItemStyle}"  >
+					<basics:TabItem.Content>
+						<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" >
+
+								<!-- Directional Buttons-->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Pan" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<Button Style="{StaticResource RibbonButton}" Margin="15,0,15,10" Cursor="Hand" ToolTipService.ToolTip="Zoom to Full Extent" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="0,0,0,-10" Click="ZoomFullExtentButton_Click" >
+											<Grid Width="50" Height="50" Margin="0,0,0,10" VerticalAlignment="Top" >
+												<Button x:Name="PanUp" Width="20" Height="20" Margin="0" Cursor="Hand" Click="PanButton_Click" Style="{StaticResource ClearButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" ToolTipService.ToolTip="Click to pan north" >
+													<Button.Content>
+														<icons:UpDownExpand IsPointingDown="False" RenderTransformOrigin="0.5,0.5" Fill="{StaticResource ArrowFill}" Stroke="{StaticResource ArrowBorder}" >
+															<icons:UpDownExpand.RenderTransform>
+																<ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+															</icons:UpDownExpand.RenderTransform>
+														</icons:UpDownExpand>
+													</Button.Content>
+												</Button>
+												<Button x:Name="PanDown" Width="20" Height="20" Margin="0" Cursor="Hand" Click="PanButton_Click" Style="{StaticResource ClearButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom" ToolTipService.ToolTip="Click to pan south" >
+													<Button.Content>
+														<icons:UpDownExpand IsPointingDown="True" RenderTransformOrigin="0.5,0.5" Fill="{StaticResource ArrowFill}" Stroke="{StaticResource ArrowBorder}" >
+															<icons:UpDownExpand.RenderTransform>
+																<ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+															</icons:UpDownExpand.RenderTransform>
+														</icons:UpDownExpand>
+													</Button.Content>
+												</Button>
+												<Button x:Name="PanLeft" Width="20" Height="20" Margin="0" Cursor="Hand" Click="PanButton_Click" Style="{StaticResource ClearButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" ToolTipService.ToolTip="Click to pan west" >
+													<Button.Content>
+														<icons:LeftRightExpand IsPointingRight="False" RenderTransformOrigin="0.5,0.5"  Fill="{StaticResource ArrowFill}" Stroke="{StaticResource ArrowBorder}" >
+															<icons:LeftRightExpand.RenderTransform>
+																<ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+															</icons:LeftRightExpand.RenderTransform>
+														</icons:LeftRightExpand>
+													</Button.Content>
+												</Button>
+												<Button x:Name="PanRight" Width="20" Height="20" Margin="0" Cursor="Hand" Click="PanButton_Click" Style="{StaticResource ClearButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" ToolTipService.ToolTip="Click to pan east" >
+													<Button.Content>
+														<icons:LeftRightExpand IsPointingRight="True" RenderTransformOrigin="0.5,0.5"  Fill="{StaticResource ArrowFill}" Stroke="{StaticResource ArrowBorder}" >
+															<icons:LeftRightExpand.RenderTransform>
+																<ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+															</icons:LeftRightExpand.RenderTransform>
+														</icons:LeftRightExpand>
+													</Button.Content>
+												</Button>
+
+											</Grid>
+										</Button>
+									</Grid>
+								</Border>
+
+
+
+								<!-- Zoom Level -->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Zoom" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<!--<Button Style="{StaticResource RibbonButton}" Margin="15,0,15,10" Cursor="Hand" ToolTipService.ToolTip="Zoom to Full Extent" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,5,5,5" IsHitTestVisible="False">-->
+										<StackPanel Orientation="Vertical" x:Name="ZoomGridStack" Margin="0" VerticalAlignment="Center" >
+											<Grid x:Name="ZoomStackGrid" Margin="15,5,15,15" MouseEnter="ZoomStackGrid_MouseEnter" MouseLeave="ZoomStackGrid_MouseLeave" >
+												<Rectangle x:Name="ZoomStackHighlight" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{StaticResource RibbonButtonHighlight}" Stroke="Black" StrokeThickness="0.5" Opacity="0" />
+												<Border HorizontalAlignment="Center" BorderBrush="#66000000" BorderThickness="1" Background="#CCFFFFFF" CornerRadius="4" Margin="5,10,5,5" Effect="{StaticResource miniDropShadow}" >
+													<StackPanel x:Name="ZoomStack" Orientation="Horizontal" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource miniDropShadow}" >
+														<Button x:Name="ZoomOutButton" Height="20" FontSize="12" Foreground="#FFFFFFFF" FontWeight="Bold" Width="20" Padding="-5" ToolTipService.ToolTip="Zoom Out" Margin="3,0,0,0" Style="{StaticResource ClearButtonStyle}" Cursor="Hand" Click="ZoomOutButton_Click" >
+															<Button.Content>
+																<Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20" >
+																	<Ellipse Margin="0" Fill="{StaticResource ButtonGradient}" />
+																	<TextBlock FontSize="12" Foreground="#FFFFFFFF" FontWeight="Bold" Text="-" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" />
+																</Grid>
+															</Button.Content>
+														</Button>
+														<Grid>
+															<Grid x:Name="ZoomLevelGrid" RenderTransformOrigin="0.5,0.5" Margin="5,0,5,0" >
+																<StackPanel x:Name="ZoomLevelStack" Orientation="Horizontal" Cursor="SizeWE" ToolTipService.ToolTip="Drag or click to zoom in or out" />
+															</Grid>
+														</Grid>
+														<Button x:Name="ZoomInButton" Height="20" FontSize="12" Foreground="#FFFFFFFF" FontWeight="Bold" Width="20" Padding="-5" ToolTipService.ToolTip="Zoom In" Margin="0,0,3,0" Style="{StaticResource ClearButtonStyle}" Cursor="Hand" Click="ZoomInButton_Click" >
+															<Button.Content>
+																<Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20" >
+																	<Ellipse Margin="0" Fill="{StaticResource ButtonGradient}" />
+																	<TextBlock FontSize="12" Foreground="#FFFFFFFF" FontWeight="Bold" Text="+" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" />
+																</Grid>
+															</Button.Content>
+														</Button>
+
+													</StackPanel>
+												</Border>
+											</Grid>
+										</StackPanel>
+										<!--</Button>-->
+									</Grid>
+								</Border>
+
+
+								<!-- Full Extent Button -->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Full Extent" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Zoom to Full Extent" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" Click="ZoomFullExtentButton_Click" >
+											<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+												<Image Style="{StaticResource globeImage}" Height="22"  />
+											</Grid>
+										</Button>
+
+									</Grid>
+								</Border>
+
+								<!-- Map Rotation Button -->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Rotate Map" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Toggle Map Rotation" VerticalAlignment="Center"  HorizontalAlignment="Center"  Padding="5,10,5,10" >
+											<i:Interaction.Triggers>
+												<i:EventTrigger EventName="Click" >
+													<actions:ToggleCollapseAction TargetName="MapRotationPanel" />
+												</i:EventTrigger>
+											</i:Interaction.Triggers>
+											<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+												<Image Style="{StaticResource compassImage}" Height="22"  />
+											</Grid>
+										</Button>
+
+									</Grid>
+								</Border>
+
+								<!-- Scale Bar -->
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<TextBlock Text="Map Scale" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+                                        <userControls:ScaleBar x:Name="ScaleBar" Map="{Binding ElementName=Map}" MapUnit="Meters"   VerticalAlignment="Center" Margin="15,0,0,0"  Fill="#99000000" Effect="{StaticResource miniDropShadow}" />
+									</Grid>
+								</Border>
+
+
+							</StackPanel>
+						</Grid>
+					</basics:TabItem.Content>
+				</basics:TabItem>
+
+				<!-- Query Tab -->
+				<basics:TabItem Header="Query" Name="Item_2" Tag="2" Style="{StaticResource RibbonTabItemStyle}"  >
+					<basics:TabItem.Content>
+						<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" >
+								<Border Style="{StaticResource RibbonElementBorder}"  Margin="1,1,1,1" VerticalAlignment="Stretch" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" >
+									<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+
+										<TextBlock Text="Selection Tools" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center"  Margin="5,0,5,0" FontSize="10" />
+										<!-- Drawing Tools -->
+										<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,5,0" >
+											<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Select by clicking at point location" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" Tag="0" Click="SelectionTool_Click">
+												<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+													<Image Source="images/DrawPoint.png" Height="22" />
+												</Grid>
+											</Button>
+											<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Select by clicking a Polyline" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" Tag="1" Click="SelectionTool_Click">
+												<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+													<Image Source="images/DrawPolyline.png" Height="22" />
+												</Grid>
+											</Button>
+											<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Select by clicking a Polygon" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" Tag="2" Click="SelectionTool_Click">
+												<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+													<Image Source="images/DrawPolygon.png" Height="22" />
+												</Grid>
+											</Button>
+											<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Select by dragging a Rectangle" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" Tag="3" Click="SelectionTool_Click">
+												<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+													<Image Source="images/DrawRectangle.png" Height="22" />
+												</Grid>
+											</Button>
+											<Button Style="{StaticResource RibbonButton}" Margin="0,0,0,5" Cursor="Hand" ToolTipService.ToolTip="Cancel Selection Tools" VerticalAlignment="Center" HorizontalAlignment="Center"  Padding="5,10,5,10" Tag="Clear" Click="SelectionTool_Click">
+												<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Effect="{StaticResource miniDropShadow}" >
+													<Image Source="images/StopDraw.png" Height="22" />
+												</Grid>
+											</Button>
+										</StackPanel>
+
+										<TextBlock x:Name="StatusTextBlock" Text="Click to select tool type." FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource miniDropShadow}" Visibility="Collapsed"/>
+									</Grid>
+								</Border>
+							</StackPanel>
+						</Grid>
+					</basics:TabItem.Content>
+				</basics:TabItem>
+
+			</toolkit:TabRibbon>
+		</Grid>
+
+	</Grid>
+</UserControl>

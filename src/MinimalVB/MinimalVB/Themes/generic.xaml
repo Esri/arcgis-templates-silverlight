@@ -1,0 +1,11 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MinimalVB;component/UserControls/DraggableWindow.xaml" />
+        <ResourceDictionary Source="/MinimalVB;component/UserControls/DropDownMenu.xaml" />
+        <ResourceDictionary Source="/MinimalVB;component/UserControls/OverviewMap2.xaml" />
+        
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

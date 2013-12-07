@@ -1,0 +1,124 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:local="clr-namespace:ESRI.ArcGIS.SilverlightMapApp">
+    <Style TargetType="local:WindowPanel">
+		<Setter Property="BorderBrush" Value="White" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Background">
+			<Setter.Value>
+				<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+					<GradientStop Offset="0" Color="#ee76a8d3"/>
+					<GradientStop Offset="0.25" Color="#ee5b8cb5"/>
+					<GradientStop Offset="0.75" Color="#ee4b7ba7"/>
+				</LinearGradientBrush>
+			</Setter.Value>
+		</Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:WindowPanel">
+                    <Grid x:Name="LayoutRoot">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="WidgetStateGroup">
+                                <VisualState x:Name="Maximized">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="WidgetContent" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation To="1" FillBehavior="HoldEnd" Storyboard.TargetName="WidgetContent" 
+                                         Storyboard.TargetProperty="Opacity" BeginTime="00:00:00"
+                                         Duration="0:0:0.4" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Minimized">
+                                    <Storyboard>
+                                        <DoubleAnimation To="0" FillBehavior="HoldEnd" Storyboard.TargetName="WidgetContent" 
+                                         Storyboard.TargetProperty="Opacity" BeginTime="00:00:00" 
+                                         Duration="0:0:0.4" />
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00.4" Duration="00:00:00.0010000" Storyboard.TargetName="WidgetContent" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Closed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.0" Duration="00:00:0.001" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation To="0" FillBehavior="HoldEnd" Storyboard.TargetName="LayoutRoot" 
+                                         Storyboard.TargetProperty="Opacity" BeginTime="00:00:00" 
+                                         Duration="0:0:0.4" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Opened">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:0.0" Duration="00:00:0.001" Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation To="1" FillBehavior="HoldEnd" Storyboard.TargetName="LayoutRoot" 
+                                         Storyboard.TargetProperty="Opacity" BeginTime="00:00:00" 
+                                         Duration="0:0:0.4" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid x:Name="OVPanelGrid" Margin="0" RenderTransformOrigin="1,1">
+                            <Grid.RenderTransform >
+                                <ScaleTransform x:Name="OverviewContentsScaleTransform"  ScaleX="1" ScaleY="1" />
+                            </Grid.RenderTransform>
+                            <Grid x:Name="OverviewContents" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="5" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+								<Border CornerRadius="6" BorderBrush="{TemplateBinding BorderBrush}"
+								 			BorderThickness="{TemplateBinding BorderThickness}"
+											Background="{TemplateBinding Background}"
+										   Margin="0" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+                                <Border x:Name="WidgetContent" BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,2,5,0">
+                                    <ContentPresenter 
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Content="{TemplateBinding Content}" 
+                                        Margin="{TemplateBinding Padding}"            
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                                </Border>
+                                <ContentPresenter Grid.Column="0" Grid.Row="0" 
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Content="{TemplateBinding ContentTitle}" 
+                                        Margin="{TemplateBinding Padding}" />
+                                <Rectangle x:Name="headerDragRectangle" Fill="#00FFFFFF" Grid.Column="0" 
+                                           Cursor="Hand" Margin="0" Grid.ColumnSpan="1" Grid.Row="0" />
+                                <Image x:Name="imgClose" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,2,5,0" 
+                                       Source="/Images/dismiss.png" Cursor="Hand" Grid.Column="0" Grid.Row="0" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

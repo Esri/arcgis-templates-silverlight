@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/TabbedRibbonVB;component/UserControls/WindowPanel.xaml" />
+        <ResourceDictionary Source="/TabbedRibbonVB;component/UserControls/CollapsiblePanel.xaml" />
+        <ResourceDictionary Source="/TabbedRibbonVB;component/UserControls/DropDownMenu.xaml" />
+        <ResourceDictionary Source="/TabbedRibbonVB;component/UserControls/ScaleBar.xaml" />
+        <ResourceDictionary Source="/TabbedRibbonVB;component/Toolkit/TabRibbon.xaml" />
+        <ResourceDictionary Source="/TabbedRibbonVB;component/Toolkit/IconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

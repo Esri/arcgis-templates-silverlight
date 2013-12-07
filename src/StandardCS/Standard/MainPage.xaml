@@ -1,0 +1,335 @@
+<UserControl x:Class="Standard.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="http://schemas.esri.com/arcgis/client/2009" 
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+    xmlns:userControls="clr-namespace:ESRI.ArcGIS.SilverlightMapApp"
+    xmlns:actions="clr-namespace:ESRI.ArcGIS.SilverlightMapApp.Actions">
+    <Grid x:Name="LayoutRoot">
+        <!-- Map Control -->
+        <esri:Map x:Name="Map" Background="White" WrapAround="true">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                        <ei:ChangePropertyAction.Value>
+                            <Visibility>Collapsed</Visibility>
+                        </ei:ChangePropertyAction.Value>
+                    </ei:ChangePropertyAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        	<esri:ArcGISTiledMapServiceLayer ID="BaseLayer" 
+        		Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+        </esri:Map>
+        
+        <!-- Main Menu -->
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" >
+            <userControls:CollapsiblePanel x:Name="MainManu" IsExpanded="True" 
+                                           RenderTransformOrigin="0,0"
+                                           VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Border Style="{StaticResource CommonBorder}">
+                    <StackPanel Margin="3">
+
+                        <Grid x:Name="BannerGrid" Grid.Row="0" Margin="30,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="3" />
+                                <RowDefinition Height="17" />
+                            </Grid.RowDefinitions>
+                            <!-- Application Title -->
+                            <TextBlock x:Name="title" Margin="0,0,15,0" Style="{StaticResource Title}" 
+                                       Text="{StaticResource ApplicationTitle}" Grid.Row="0" />
+                            <Rectangle x:Name="separatorBar" Fill="CornflowerBlue" Grid.Row="1" />
+                            <!-- Application Subtitle -->
+                            <TextBlock x:Name="subtitle" Style="{StaticResource Subtitle}" 
+                                       Text="{StaticResource ApplicationSubtitle}" Grid.Row="2" />
+                        </Grid>
+
+                        <Canvas HorizontalAlignment="Left" Height="25" Width="Auto"
+                                VerticalAlignment="Bottom" Margin="10,10,10,-5">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="myMenu" Style="{StaticResource MenuButton}" 
+                                        ToolTipService.ToolTip="Menu">
+                                    <Button.Content>
+                                        <Image Source="Images/i_globe.png" Stretch="Fill" />
+                                    </Button.Content>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                                                <ei:ChangePropertyAction.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </ei:ChangePropertyAction.Value>
+                                            </ei:ChangePropertyAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                                <ToggleButton x:Name="btnAbout" Style="{StaticResource ToolbarToggleButton}" 
+										Width="40" Height="35" IsChecked="False"
+                                        ToolTipService.ToolTip="About ESRI ArcGIS Mapping Application">
+                                    <ToggleButton.Content>
+                                        <Image Source="Images/i_about.png" Stretch="Fill" />
+                                    </ToggleButton.Content>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                                                <ei:ChangePropertyAction.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </ei:ChangePropertyAction.Value>
+                                            </ei:ChangePropertyAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ToggleButton>
+                            </StackPanel>
+                        </Canvas>
+                    </StackPanel>
+                </Border>
+            </userControls:CollapsiblePanel>
+            <Image Source="Images/logo.png" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Stretch="Fill" Height="40" Width="40" Margin="-10" 
+                   ToolTipService.ToolTip="Expand/Collapse Menu Bar">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <actions:ToggleCollapseAction TargetName="MainManu" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                            <ei:ChangePropertyAction.Value>
+                                <Visibility>Collapsed</Visibility>
+                            </ei:ChangePropertyAction.Value>
+                        </ei:ChangePropertyAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Image>
+        </Grid>
+
+        <!-- The SubMenus -->
+        <Grid x:Name="myMenuItems" HorizontalAlignment="Left" VerticalAlignment="Top"
+              Margin="30,112">
+            <Border Style="{StaticResource CommonBorder}" Padding="10,3,10,3">
+                <StackPanel>
+                    <Button x:Name="myMenuItem1" 
+                            Style="{StaticResource MenuItem}" 
+                            ToolTipService.ToolTip="Your First Menu Here!" Content="SubMenu #1" />
+                    <Button x:Name="myMenuItem2" 
+                            Style="{StaticResource MenuItem}" 
+                            ToolTipService.ToolTip="Your Second Menu Here!" 
+                            Content="SubMenu #2" />
+                    <Button x:Name="myMenuItem3" 
+                            Style="{StaticResource MenuItem}" 
+                            ToolTipService.ToolTip="Your Third Menu Here!" 
+                            Content="SubMenu #3" />
+                </StackPanel>
+            </Border>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                    	<ei:ChangePropertyAction.Value>
+                    		<Visibility>Collapsed</Visibility>
+                    	</ei:ChangePropertyAction.Value>
+                    </ei:ChangePropertyAction>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Loaded">
+                	<ei:ChangePropertyAction TargetName="myMenuItems" PropertyName="Visibility">
+                		<ei:ChangePropertyAction.Value>
+                			<Visibility>Collapsed</Visibility>
+                		</ei:ChangePropertyAction.Value>
+                	</ei:ChangePropertyAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Grid>
+
+        <!-- StackPanel containing the Base Map Switcher and the Application Toolbar -->
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" >
+            <!-- Base Map Switcher -->
+			<Border x:Name="BaseMapSwitcher"  Style="{StaticResource CommonBorder}"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5">
+				<StackPanel Orientation="Horizontal" Margin="5">
+					<RadioButton Content="Streets" IsChecked="True"
+							ToolTipService.ToolTip="Worldwide Street Map"
+							GroupName="BaseLayer"
+							Margin="5,0,0,0" Foreground="White" FontSize="11" >
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="Checked">
+								<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer" Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</RadioButton>
+					<RadioButton Content="Topo"
+							GroupName="BaseLayer"
+							ToolTipService.ToolTip="United States Topographic Map"
+							Margin="5,0,0,0" Foreground="White" FontSize="11" >
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="Checked">
+								<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer" Url="http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</RadioButton>
+					<RadioButton Content="Imagery"
+							ToolTipService.ToolTip="Worldwide Satellite Imagery Map"
+							GroupName="BaseLayer"
+							Margin="5,0,0,0" Foreground="White" FontSize="11" >
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="Checked">
+								<actions:SetLayerUrlAction TargetName="Map" LayerID="BaseLayer" Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</RadioButton>
+				</StackPanel>
+			</Border>
+           
+            <!-- Toolbar -->
+            <Grid Margin="5">
+                <userControls:CollapsiblePanel x:Name="MainToolbar" IsExpanded="True" 
+                                               RenderTransformOrigin="1,0"
+                                               VerticalContentAlignment="Stretch"
+                                               HorizontalContentAlignment="Stretch" Margin="0,0,5,0">
+                        <Grid HorizontalAlignment="Left" Effect="{StaticResource dropShadow}">
+                            <Border Style="{StaticResource CommonBorder}" Margin="0,0,0,18" Effect="{x:Null}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,7,15,0">
+                                <Button x:Name="btnToggleBaseMapSwitcher" Style="{StaticResource ToolbarButton}" 
+                                        ToolTipService.ToolTip="Toggle visibility of the base map switcher">
+                                    <Button.Content>
+                                        <Image Source="Images/i_clickglobe.png" Stretch="Fill" />
+                                    </Button.Content>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <actions:ToggleVisibilityAction TargetName="BaseMapSwitcher" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+								<ToggleButton x:Name="btnToggleMapLegend" Style="{StaticResource ToolbarToggleButton}" IsChecked="False"
+											  ToolTipService.ToolTip="Toggle visibility of the map legend">
+									<ToggleButton.Content>
+										<Image Source="Images/i_legend.png" Stretch="Fill" />
+									</ToggleButton.Content>
+									
+								</ToggleButton>
+
+							<ToggleButton x:Name="btnToggleOverviewMap" Style="{StaticResource ToolbarToggleButton}"  IsChecked="False"
+										  ToolTipService.ToolTip="Toggle visibility of the overview map">
+									<ToggleButton.Content>
+                                        <Image Source="Images/i_overview.png" Stretch="Fill" />
+									</ToggleButton.Content>
+								</ToggleButton>
+
+								<Button x:Name="btnToggleMagnifyingGlass" Style="{StaticResource ToolbarButton}" 
+										ToolTipService.ToolTip="Toggle visibility of the magnifying glass">
+									<Button.Content>
+                                        <Image Source="Images/i_magnifyglass.png" Stretch="Fill" />
+                                    </Button.Content>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <actions:ToggleVisibilityAction TargetName="MagnifyingGlass" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                </userControls:CollapsiblePanel>
+                <Image Source="Images/i_tools.png" HorizontalAlignment="Right" 
+                   VerticalAlignment="Top" Stretch="Fill" Height="30" Width="30" Margin="-5" 
+                   ToolTipService.ToolTip="Expand/Collapse Toolbar">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <actions:ToggleCollapseAction TargetName="MainToolbar" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Image>
+            </Grid>
+        </StackPanel>
+
+        <!-- Navigator -->
+        <esri:Navigation  x:Name="Navigator" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                                 Margin="40,0,0,30"
+								 Map="{Binding ElementName=Map}" />
+
+        <!-- Scale Bar -->
+        <esri:ScaleLine x:Name="ScaleBar" Map="{Binding ElementName=Map}"  MapUnit="Meters" 
+						HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+						Margin="20,0,0,5" IsHitTestVisible="False" />
+
+		<!-- Attribution Text -->
+		<esri:Attribution Layers="{Binding ElementName=Map, Path=Layers}" 
+						  VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+						  Margin="200,0,80,5" IsHitTestVisible="False" />
+
+        <!-- Overview Map Window -->
+        <userControls:WindowPanel x:Name="OverviewMapPanel" Width="212" Height="231" 
+								  IsOpen="{Binding ElementName=btnToggleOverviewMap, Path=IsChecked, Mode=TwoWay}"
+								  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,66,10,0">
+            <esri:OverviewMap x:Name="OVMap" Margin="0" 
+									Map="{Binding ElementName=Map}">
+                <esri:OverviewMap.Layer>
+                    <esri:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+                </esri:OverviewMap.Layer>
+            </esri:OverviewMap>
+            <userControls:WindowPanel.ContentTitle>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/i_overview.png" 
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill" 
+                           Width="20" Height="20" Margin="5,2,0,0" />
+                    <TextBlock Foreground="White" FontSize="12" 
+                               Text="Overview Map" Width="100" TextWrapping="NoWrap" Height="Auto" 
+                               HorizontalAlignment="Left" Margin="5,3,0,0" />
+                </StackPanel>
+            </userControls:WindowPanel.ContentTitle>
+        </userControls:WindowPanel>
+
+        <!-- Magnifying Glass -->
+		<esri:MagnifyingGlass x:Name="MagnifyingGlass" HorizontalAlignment="Left" VerticalAlignment="Top"
+        			Map="{Binding ElementName=Map}" Margin="50,150,0,0" Visibility="Collapsed">
+			<esri:MagnifyingGlass.Layer>
+				<esri:ArcGISTiledMapServiceLayer Url="http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer" />
+			</esri:MagnifyingGlass.Layer>
+		</esri:MagnifyingGlass>
+
+		<!-- Map Legend -->
+		<userControls:WindowPanel x:Name="MapLegendPanel"
+			IsOpen="{Binding ElementName=btnToggleMapLegend, Path=IsChecked, Mode=TwoWay}"
+		 HorizontalAlignment="Right" VerticalAlignment="Top" Width="212" Height="231" 
+			Margin="0,305,10,-610">
+			<esri:Legend x:Name="Legend" Map="{Binding ElementName=Map}" />
+			<userControls:WindowPanel.ContentTitle>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="Images/i_legend.png" 
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill" 
+                           Width="20" Height="20" Margin="5,2,0,0" />
+					<TextBlock Foreground="White" FontSize="12" 
+                               Text="Map Legend" Width="100" TextWrapping="NoWrap" Height="Auto" 
+                               HorizontalAlignment="Left" Margin="5,3,0,0" />
+				</StackPanel>
+			</userControls:WindowPanel.ContentTitle>
+		</userControls:WindowPanel>
+
+		<!-- About Window -->
+        <userControls:WindowPanel x:Name="AboutWindow" Width="375" Height="150" IsOpen="{Binding ElementName=btnAbout, Path=IsChecked, Mode=TwoWay}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Style="{StaticResource Title}" TextWrapping="NoWrap" 
+                           Text="{StaticResource ApplicationTitle}" Width="Auto" Height="Auto" 
+                           Margin="5,3,0,0" />
+                <TextBlock Style="{StaticResource Subtitle}" TextWrapping="NoWrap" 
+                           Text="{StaticResource ApplicationSubtitle}" Width="Auto" Height="Auto" 
+                           Margin="5,1,0,0" />
+                <Line X1="5" Y1="50" X2="355" Y2="50" Stroke="White" StrokeThickness="0.25" />
+                <TextBlock Foreground="Yellow" FontSize="11" Width="Auto" TextWrapping="NoWrap" 
+                           Text="{StaticResource ApplicationInfo}" Height="Auto" 
+                           HorizontalAlignment="Left" Margin="5,3,0,0" />
+            </StackPanel>
+            <userControls:WindowPanel.ContentTitle>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Images/logo.png" 
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill" 
+                           Width="20" Height="20" Margin="5,2,0,0" />
+                    <TextBlock Foreground="White" FontSize="12" 
+                               Text="About" Width="100" TextWrapping="NoWrap" Height="Auto" 
+                               HorizontalAlignment="Left" Margin="5,3,0,0" />
+                </StackPanel>
+            </userControls:WindowPanel.ContentTitle>
+        </userControls:WindowPanel>
+    </Grid>
+</UserControl>
