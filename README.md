@@ -5,31 +5,31 @@ This repo contains source code for project templates you can use to start buildi
 
 [Frosted Tabs](http://serverapps102.esri.com/SampleGallery/FrostedTabs/Web/)
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/FrostedTabs.png "FrostedTab template")](http://serverapps102.esri.com/SampleGallery/FrostedTabs/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/FrostedTabs.png "FrostedTab template")](http://serverapps102.esri.com/SampleGallery/FrostedTabs/Web/)
 
 [Glass](http://serverapps102.esri.com/SampleGallery/Glass/Web/)
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/Glass.png "Glass template")](http://serverapps102.esri.com/SampleGallery/Glass/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/Glass.png "Glass template")](http://serverapps102.esri.com/SampleGallery/Glass/Web/)
 
 [Menu Ribbon](http://serverapps102.esri.com/SampleGallery/MenuRibbon/Web/)
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/MenuRibbon.png "MenuRibbon template")](http://serverapps102.esri.com/SampleGallery/MenuRibbon/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/MenuRibbon.png "MenuRibbon template")](http://serverapps102.esri.com/SampleGallery/MenuRibbon/Web/)
 
 [Minimal](http://serverapps102.esri.com/SampleGallery/Minimal/Web/)
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/Minimal.png "Minimal template")](http://serverapps102.esri.com/SampleGallery/Minimal/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/Minimal.png "Minimal template")](http://serverapps102.esri.com/SampleGallery/Minimal/Web/)
 
 [Showcase](http://serverapps102.esri.com/SampleGallery/Showcase/Web/) 
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/Showcase.png "Showcase template")](http://serverapps102.esri.com/SampleGallery/Showcase/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/Showcase.png "Showcase template")](http://serverapps102.esri.com/SampleGallery/Showcase/Web/)
 
 [Standard](http://serverapps102.esri.com/SampleGallery/Standard/Web/) 
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/Standard.png "Standard template")](http://serverapps102.esri.com/SampleGallery/Standard/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/Standard.png "Standard template")](http://serverapps102.esri.com/SampleGallery/Standard/Web/)
 
 [Tabbed Ribbon](http://serverapps102.esri.com/SampleGallery/TabbedRibbon/Web/)
 
-[![image](https://raw.github.com/Esri/arcgis-silverlight-templates/master/TabbedRibbon.png "TabbedRibbon template")](http://serverapps102.esri.com/SampleGallery/TabbedRibbon/Web/)
+[![image](https://raw.github.com/Esri/arcgis-templates-silverlight/master/TabbedRibbon.png "TabbedRibbon template")](http://serverapps102.esri.com/SampleGallery/TabbedRibbon/Web/)
 
 
 ## Instructions (for the Silverlight 5 platform)
